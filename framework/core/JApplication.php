@@ -14,9 +14,20 @@ final class JApplication
 	public $__action;
 	public $__request;
 	public $__config;
+	public $__logger;
 	
 	public function __construct()
 	{
+		/**
+		 * 加载request类
+		 */
+		$this->__request = JRequest::getInstance();
+		/**
+		 * 加载配置类
+		 */	
+		$this->__config = JConfig::getInstance();
+		
+		$this->__logger = new JDebug();
 		
 	}
 	
@@ -41,7 +52,6 @@ final class JApplication
 	
 	private function beforeRun()
 	{
-		$this->__request = JRequest::getInstance();
 		$this->parseUri();		
 	}
 	
