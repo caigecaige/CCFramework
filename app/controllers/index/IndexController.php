@@ -9,7 +9,12 @@ class IndexController extends JController
 	
 	public function indexAction()
 	{
-		echo 'hello index';
+		//$uri = JApplication::getApp()->__request->request_uri;
+		//$par = '/\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.*$)/i';
+		//$res = preg_replace($par,'__m=${1}&__c=${2}&__a=${3}$__p=${4}',$uri);
+		//echo $res;
+		$id = JApplication::getApp()->__request->getParam('id');
+		echo $id;
 	}
 	
 	public function infoAction()

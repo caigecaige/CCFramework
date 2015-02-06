@@ -48,7 +48,7 @@ final class JRequest
 	
 	public function getParams()
 	{
-		
+		return $this->__requestData;
 	}
 	
 	/**
@@ -79,6 +79,14 @@ final class JRequest
 			$val = $this->filterStr($val);
 		} 
 		return $val;
+	}
+	
+	/**
+	 * @return:boolean
+	 */
+	public function __set($key,$val)
+	{
+		$this->__requestData[$key] = $val;
 	}
 	
 	

@@ -14,16 +14,17 @@ return array(
 											'log' 			=> FALSE,
 											'systemLib' 	=> array('core','db','log'),
 											'defaultModule'	=> 'index',
+											'theme'			=> 'default',
 										),
 				'modules'		=> array(	//模块配置
-											'index' => array(
+											'index' => array(	//index模块
 																'defaultController' => 'index',
 																'defaultAction'		=> 'index',
 																),
 											
 										),
 				'router'	 	=> array(	//路由配置
-											'defaultRouter' 			=> array('/module/controller/action' => 'm=<module>&c=<controller>&a=<action>'),
+											'defaultRouter' 			=> array('/\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.*)$/i' => '__m=${1}&__c=${2}&__a=${3}&__p=${4}'),
 											'configFile' 				=> 'router.php',
 											'urlSuffix'					=> '.html',
 										),

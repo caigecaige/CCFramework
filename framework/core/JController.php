@@ -1,6 +1,6 @@
 <?php 
 /**
- * @name:JAutoload
+ * @name:JController
  * @author:caipj
  * @copyright:caipj
  * @package:core
@@ -9,11 +9,16 @@
 //namespace core;
 abstract class JController
 {
+	private $__render;
 	
-	abstract public function init();
+	public function init()
+	{
+		
+	}
 	
 	public function runAction($action = '')
 	{
+		$this->init();
 		$this->beforeAction();
 		$this->$action();
 		$this->afterAction();
