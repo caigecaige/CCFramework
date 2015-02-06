@@ -9,11 +9,14 @@
 //namespace core;
 abstract class JController
 {
+	
 	abstract public function init();
 	
-	public function runAction()
+	public function runAction($action = '')
 	{
-		
+		$this->beforeAction();
+		$this->$action();
+		$this->afterAction();
 	}
 	
 	public function beforeAction()

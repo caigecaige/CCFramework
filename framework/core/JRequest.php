@@ -72,7 +72,6 @@ final class JRequest
 	 */
 	public function __get($key)
 	{
-		var_dump($this->__requestData);
 		$key = strtoupper($key);
 		$val = isset($this->__requestData[$key]) ? $this->__requestData[$key] : '';
 		if(!empty($val))
@@ -81,6 +80,7 @@ final class JRequest
 		} 
 		return $val;
 	}
+	
 	
 	/**
 	 * @name:filter data;

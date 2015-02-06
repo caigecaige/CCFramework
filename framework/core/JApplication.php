@@ -7,41 +7,69 @@
  * @since:20140204
  */
 //namespace core;
+require_once 'JBootstrap.php';
 final class JApplication
 {
+	static private $__app;
 	public $__module;
 	public $__controller;
 	public $__action;
 	public $__request;
-	public $__config;
+	public $__router;
 	public $__logger;
 	
-	public function __construct()
+	private function __construct()
 	{
+		/**
+		 * 加载bootstrap
+		 */
+		$this->setupBootstrap();
 		/**
 		 * 加载request类
 		 */
 		$this->__request = JRequest::getInstance();
 		/**
-		 * 加载配置类
-		 */	
-		$this->__config = JConfig::getInstance();
-		
-		$this->__logger = new JDebug();
+		 * 加载路由类
+		 */
+		$this->__router = JRouter::getInstance();
+		/**
+		 * 加载日志
+		 */
+		if(JConfig::getInstance()->getModuleSet('application', 'log'))
+		{
+			$this->__logger = JDebug::getInstance();
+		}
 		
 	}
 	
-	/**
-	 * @name:run,程序入口
-	 * @param:$params:app运行的参数,$config:app运行所属的配置
-	 */
-	public function run($paramsStr = '',$config = '')
+	static public function getApp()
 	{
-		echo 'app running...';
+		if(!self::$__app instanceof self)
+		{
+			self::$__app = new self();
+		}
+		return self::$__app;
 	}
 	
 	/**
-	 * @name start
+	 * 加载自动加载器
+	 */
+	private function setupBootstrap()
+	{
+		JBootstrap::init();
+	}
+	
+	public function run($config = '')
+	{
+		$controller = JApplication::getApp()->__controller;
+		$action = JApplication::getApp()->__action;
+		$dispath = new $controller();
+		$dispath->runAction($action);
+	}
+	
+	/**
+	 * @name:run,程序执行入口
+	 * @param:$params:app运行的参数,$config:app运行所属的配置
 	 */
 	public function start($config = '')
 	{
@@ -52,32 +80,14 @@ final class JApplication
 	
 	private function beforeRun()
 	{
-		$this->parseUri();		
+		$this->__router->dispatch();
 	}
 	
 	private function afterRun()
 	{
-	}
-	
-	private function parseParams($requestStr)
-	{
-		parse_str($requestStr,$params);
-		return $params;
+		//清空加载import的类库
 	}
 
-	private function parseUri()
-	{
-		$uri = $this->__request->request_uri;
-		$params = explode('/',$uri);
-		$params = array_filter($params,function($v){
-			if(empty($v)){return false;}else{return true;}
-		});
-		foreach($params as $param)
-		{
-			
-		}
-		
-	}
 	
 	
 }

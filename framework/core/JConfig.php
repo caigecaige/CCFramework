@@ -12,10 +12,13 @@ final class JConfig
 	static private $__instance;
 	private $configData;
 	
-	private function __contruct()
+	private function __construct()
 	{
 		$configFile = J_DIR_APP_ROOT . J_DIR_SEP . 'config' . J_DIR_SEP . 'test.php';
-		$this->configData = include_once($configFile);	
+		if(is_file($configFile))
+		{
+			$this->configData = include_once($configFile);
+		}
 	}
 	
 	
@@ -27,7 +30,7 @@ final class JConfig
 		}
 		else
 		{
-			self::$__instance = new JConfig();
+			self::$__instance = new self();
 		}
 		return self::$__instance;
 	}
