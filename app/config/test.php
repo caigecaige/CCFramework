@@ -8,13 +8,15 @@
  */
 return array(
 				'application' 	=> array(	//应用程序配置
-											'name' 			=> 'appName',
-											'lang' 			=> 'ch',
-											'debug' 		=> FALSE,
-											'log' 			=> FALSE,
-											'systemLib' 	=> array('core','db','log'),
-											'defaultModule'	=> 'index',
-											'theme'			=> 'default',
+											'name' 				=> 'appName',
+											'lang' 				=> 'ch',
+											'debug' 			=> FALSE,
+											'log' 				=> FALSE,
+											'systemLib' 		=> array('core','db','log'),
+											'defaultModule'		=> 'index',
+											'theme'				=> 'default',
+											'exceptionHandler'	=> array('JException','handler'),		//异常处理Handler
+											'errorHandler'		=> array('JException','handlerError'),	//错误处理Handler
 										),
 				'modules'		=> array(	//模块配置
 											'index' => array(	//index模块
@@ -25,7 +27,7 @@ return array(
 										),
 				'router'	 	=> array(	//路由配置
 											'defaultRouter' 			=> array('/\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.*)$/i' => '__m=${1}&__c=${2}&__a=${3}&__p=${4}'),
-											'configFile' 				=> 'router.php',
+											'customConfigFile' 				=> 'router.php',
 											'urlSuffix'					=> '.html',
 										),
 				'params'		=> array(	//自定义参数

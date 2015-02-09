@@ -9,7 +9,7 @@
 //namespace core;
 final class JRouter
 {
-	private $__routerPartner;
+	private $__routerPartner = array();
 	private $__urlSuffix;
 	private $__m;
 	private $__c;
@@ -17,8 +17,50 @@ final class JRouter
 	static private $__instance;
 	private function __construct()
 	{
-		$this->__routerPartner = JConfig::getInstance()->getModuleSet('router', 'defaultRouter');
+	}
+	
+	/**
+	 * 获取url后缀并验证是否合法
+	 */
+	private function getUrlSuffix()
+	{
 		$this->__urlSuffix = JConfig::getInstance()->getModuleSet('router', 'urlSuffix');
+		$requestUri = JApplication::getApp()->__request->request_uri;
+		preg_match('/\.\w+$/i', $requestUri,$match);
+		if(isset($match[0]) && !empty($match[0]))
+		{
+			$requestSuffix = $match[0];
+			if($requestSuffix != $this->__urlSuffix)
+			{
+				Throw New Exception(JException::J_EXCEPTION_WRONG_SUFFIX_MSG,JException::J_EXCEPTION_WRONG_SUFFIX_CODE);
+			}
+			else
+			{
+				JApplication::getApp()->__request->__uri = str_ireplace('.html','',$requestUri);
+			}
+		}
+		
+	}
+	
+	/**
+	 * 获取路由rule
+	 */
+	private function getRouterRule()
+	{
+		array_push($this->__routerPartner,JConfig::getInstance()->getModuleSet('router', 'defaultRouter'));
+		/**
+		 * 检查是否有自定义路由
+		 */
+		$customRuleConfig = JConfig::getInstance()->getModuleSet('router', 'customConfigFile');
+		$customRuleConfigFile = J_DIR_APP_ROOT . J_DIR_SEP . 'config' . J_DIR_SEP . $customRuleConfig;
+		if(is_file($customRuleConfigFile))
+		{
+			$ruleConfig = include_once($customRuleConfigFile);
+			foreach($ruleConfig as $customRule)
+			{
+				array_push($this->__routerPartner,$customRule);
+			}	
+		}
 	}
 	
 	/**
@@ -26,19 +68,24 @@ final class JRouter
 	 */
 	private function checkRouter($uri)
 	{
-		$uri = str_ireplace($this->__urlSuffix,'',$uri);
-		foreach($this->__routerPartner as $rule => $replace)
+		foreach($this->__routerPartner as $rule)
 		{
-			$newUri = preg_replace($rule, $replace, $uri);
+			foreach($rule as $ruleName => $ruleExp)
+			{	
+				$newUri = preg_replace($ruleName, $ruleExp, $uri);
+			}
 		}
 		parse_str($newUri,$AC);
 		/**
 		 * 路由解析后把相应的module/controller/action保存供路由调用
 		 */
-		JApplication::getApp()->__request->__requestAC = $newUri;
-		JApplication::getApp()->__request->__m = $AC['__m'];
-		JApplication::getApp()->__request->__c = $AC['__c'];
-		JApplication::getApp()->__request->__a = $AC['__a'];
+		if(!empty($AC) && count($AC))
+		{
+			JApplication::getApp()->__request->__requestAC = $newUri;
+			JApplication::getApp()->__request->__m = $AC['__m'];
+			JApplication::getApp()->__request->__c = $AC['__c'];
+			JApplication::getApp()->__request->__a = $AC['__a'];
+		}
 		if(isset($AC['__p']))
 		{
 			$inputParams = explode('/',$AC['__p']);
@@ -69,7 +116,7 @@ final class JRouter
 		}
 		else 
 		{
-			self::$__instance = new self();
+			self::$__instance = new JRouter();
 		}
 		return self::$__instance;
 	}
@@ -80,7 +127,9 @@ final class JRouter
 	 */
 	private function parseUri()
 	{
-		$uri = JApplication::getApp()->__request->request_uri;
+		$this->getUrlSuffix();
+		$this->getRouterRule();
+		$uri = JApplication::getApp()->__request->__uri;
 		$this->checkRouter($uri);
 		$m = JApplication::getApp()->__request->getParam('__m');
 		$c = JApplication::getApp()->__request->getParam('__c');
@@ -136,22 +185,22 @@ final class JRouter
 					}
 					else
 					{
-						Throw new Exception('Action[' . $action . '] Not Found!',404);
+						Throw new Exception(JException::J_EXCEPTION_ACTION_ERROR_MSG,JException::J_EXCEPTION_ACTION_ERROR_CODE);
 					}
 				}
 				else 
 				{
-					Throw new Exception('Controller[' . $controller . '] Not Found!',404);
+					Throw new Exception(JException::J_EXCEPTION_CONTROLLER_ERROR_MSG,JException::J_EXCEPTION_CONTROLLER_ERROR_CODE);
 				}
 			}
 			else
 			{
-				Throw new Exception('Controller[' . $controller . '] Not Found!',404);
+				Throw new Exception(JException::J_EXCEPTION_CONTROLLER_ERROR_MSG,JException::J_EXCEPTION_CONTROLLER_ERROR_CODE);
 			}
 		}
 		else
 		{
-			Throw new Exception('Module[' . $module . '] Not Found!',404);
+			Throw new Exception(JException::J_EXCEPTION_MODULE_ERROR_MSG,JException::J_EXCEPTION_MODULE_ERROR_CODE);
 		}
 	}
 	

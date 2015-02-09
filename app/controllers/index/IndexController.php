@@ -13,8 +13,8 @@ class IndexController extends JController
 		//$par = '/\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.*$)/i';
 		//$res = preg_replace($par,'__m=${1}&__c=${2}&__a=${3}$__p=${4}',$uri);
 		//echo $res;
-		$id = JApplication::getApp()->__request->getParam('id');
-		echo $id;
+		$id = JApplication::getApp()->__request->getParams('id');
+		var_dump($id);
 	}
 	
 	public function infoAction()

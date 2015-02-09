@@ -18,7 +18,8 @@ final class JBootstrap
 	{
 		self::initConstance();
 		self::initLoader();
-		self::initConfig();
+		//self::initConfig();
+		self::registerHandler();
 	}
 	
 	/**
@@ -55,6 +56,17 @@ final class JBootstrap
 	static private function initDb()
 	{
 		
+	}
+	
+	/**
+	 * 注册异常/错误处理 handler
+	 */
+	static private function registerHandler()
+	{
+		$exceptionHandler = JConfig::getInstance()->getModuleSet('application', 'exceptionHandler');
+		$errorHandler = JConfig::getInstance()->getModuleSet('application', 'errorHandler');
+		//set_exception_handler($exceptionHandler);
+		//set_error_handler($errorHandler);
 	}
 	
 	

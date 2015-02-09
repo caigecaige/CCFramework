@@ -39,6 +39,7 @@ final class JRequest
 	 */
 	public function getParam($name,$default = '')
 	{
+		$name = $this->parseKey($name);
 		if(isset($this->__requestData[$name]))
 		{
 			return $this->filterStr($this->__requestData[$name]);
@@ -72,7 +73,7 @@ final class JRequest
 	 */
 	public function __get($key)
 	{
-		$key = strtoupper($key);
+		$key = $this->parseKey($key);
 		$val = isset($this->__requestData[$key]) ? $this->__requestData[$key] : '';
 		if(!empty($val))
 		{
@@ -86,6 +87,7 @@ final class JRequest
 	 */
 	public function __set($key,$val)
 	{
+		$key = $this->parseKey($key);
 		$this->__requestData[$key] = $val;
 	}
 	
@@ -96,6 +98,14 @@ final class JRequest
 	private function filterStr($str)
 	{
 		return $str;
+	}
+	
+	/**
+	 * 取值的转换方式
+	 */
+	private function parseKey($key)
+	{
+		return strtoupper($key);
 	}
 	
 	

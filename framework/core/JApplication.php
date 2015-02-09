@@ -1,6 +1,6 @@
 <?php
 /**
- * @name:JAutoload
+ * @name:JApplication
  * @author:caipj
  * @copyright:caipj
  * @package:core
@@ -39,14 +39,13 @@ final class JApplication
 		{
 			$this->__logger = JDebug::getInstance();
 		}
-		
 	}
 	
 	static public function getApp()
 	{
-		if(!self::$__app instanceof self)
+		if(!self::$__app instanceof JApplication)
 		{
-			self::$__app = new self();
+			self::$__app = new JApplication();
 		}
 		return self::$__app;
 	}
@@ -68,7 +67,7 @@ final class JApplication
 	}
 	
 	/**
-	 * @name:run,程序执行入口
+	 * @name:程序执行入口
 	 * @param:$params:app运行的参数,$config:app运行所属的配置
 	 */
 	public function start($config = '')
