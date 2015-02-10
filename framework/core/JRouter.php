@@ -26,24 +26,32 @@ final class JRouter
 	{
 		$this->__urlSuffix = JConfig::getInstance()->getModuleSet('router', 'urlSuffix');
 		$requestUri = JApplication::getApp()->__request->request_uri;
-		preg_match('/\.\w+$/i', $requestUri,$match);
-		if(isset($match[0]) && !empty($match[0]))
+		if(empty($requestUri) || $requestUri == '/')
 		{
-			$requestSuffix = $match[0];
-			if($requestSuffix != $this->__urlSuffix)
+			$m = JConfig::getInstance()->getModuleSet('application', 'defaultModule');
+			$defaultCA = JConfig::getInstance()->getModuleSet('modules',$m);
+			JApplication::getApp()->__request->__uri = '/' . $m . '/' . $defaultCA['defaultController'] . '/' . $defaultCA['defaultAction'];
+		}
+		else
+		{
+			preg_match('/\.\w+$/i', $requestUri,$match);
+			if(isset($match[0]) && !empty($match[0]))
 			{
-				Throw New Exception(JException::J_EXCEPTION_WRONG_SUFFIX_MSG,JException::J_EXCEPTION_WRONG_SUFFIX_CODE);
+				$requestSuffix = $match[0];
+				if($requestSuffix != $this->__urlSuffix)
+				{
+					Throw New Exception(JException::J_EXCEPTION_WRONG_SUFFIX_MSG,JException::J_EXCEPTION_WRONG_SUFFIX_CODE);
+				}
+				else
+				{
+					JApplication::getApp()->__request->__uri = str_ireplace('.html','',$requestUri);
+				}
 			}
 			else
 			{
 				JApplication::getApp()->__request->__uri = str_ireplace('.html','',$requestUri);
 			}
 		}
-		else
-		{
-			JApplication::getApp()->__request->__uri = str_ireplace('.html','',$requestUri);
-		}
-		
 	}
 	
 	/**
@@ -90,7 +98,7 @@ final class JRouter
 			JApplication::getApp()->__request->__c = $AC['__c'];
 			JApplication::getApp()->__request->__a = $AC['__a'];
 		}
-		if(isset($AC['__p']))
+		if(isset($AC['__p']) && !empty($AC['__p']))
 		{
 			$inputParams = explode('/',$AC['__p']);
 			for($i = 0;$i < count($inputParams);$i++)
@@ -155,7 +163,7 @@ final class JRouter
 		{
 			$a = $defaultCA['defaultAction'];
 		}
-		$a = ucfirst($a) . 'action';
+		$a = ucfirst($a) . 'Action';
 		$rt = array('m' => $m,'c' => $c,'a' => $a);
 		return $rt;
 	}

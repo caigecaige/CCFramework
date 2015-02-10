@@ -39,6 +39,8 @@ class JException extends Exception
 	
 	static public function handlerError($errNo, $errStr, $errFile, $errLine)
 	{
-		echo 'catch error';
+		echo '<style>.error{color: #CD403D;border-color: #eed3d7;padding: 8px 35px 8px 14px;margin-bottom: 18px;text-shadow: 0 1px 0 rgba(255, 255, 255, 0.5);background-color: #fcf8e3;border: 1px solid #D2C3A6;border-radius: 4px;display: block;line-height: 18px;}</style>';
+		echo '<h1>Error:</h1>';
+		echo '<div class="error"><strong>'.$errStr.'</strong> ('.$errFile.':'.$errLine.')</div>';
 	}
 }

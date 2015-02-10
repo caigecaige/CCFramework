@@ -13,15 +13,16 @@ abstract class JController
 	
 	public function init()
 	{
-		
+		$this->__render;
 	}
 	
-	public function runAction($action = '')
+	public function runAction($action)
 	{
 		$this->init();
 		$this->beforeAction();
 		$this->$action();
 		$this->afterAction();
+		$this->render($action);
 	}
 	
 	public function beforeAction()
@@ -32,6 +33,11 @@ abstract class JController
 	public function afterAction()
 	{
 		
+	}
+	
+	public function render($action)
+	{
+		$this->__render->render();
 	}
 	
 	
