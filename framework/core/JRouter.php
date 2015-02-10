@@ -39,6 +39,10 @@ final class JRouter
 				JApplication::getApp()->__request->__uri = str_ireplace('.html','',$requestUri);
 			}
 		}
+		else
+		{
+			JApplication::getApp()->__request->__uri = str_ireplace('.html','',$requestUri);
+		}
 		
 	}
 	

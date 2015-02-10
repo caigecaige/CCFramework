@@ -31,13 +31,16 @@ final class JAutoload
 			}
 		}
 		self::$__systemLibPath = JConfig::getInstance()->getModuleSet('application', 'systemLib');
-		foreach(self::$__systemLibPath as $path)
+		if(!empty(self::$__systemLibPath))
 		{
-			$classFile = J_DIR_FRAMEWORK_ROOT . J_DIR_SEP . $path . J_DIR_SEP . $class . '.php';
-			if(is_file($classFile))
+			foreach(self::$__systemLibPath as $path)
 			{
-				require_once($classFile);
-				return TRUE;
+				$classFile = J_DIR_FRAMEWORK_ROOT . J_DIR_SEP . $path . J_DIR_SEP . $class . '.php';
+				if(is_file($classFile))
+				{
+					require_once($classFile);
+					return TRUE;
+				}
 			}
 		}
 	}

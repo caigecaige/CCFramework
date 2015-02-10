@@ -30,6 +30,7 @@ final class JBootstrap
 		defined('J_DIR_SEP') ?  : define('J_DIR_SEP',DIRECTORY_SEPARATOR);
 		defined('J_DIR_FRAMEWORK_ROOT') ? : define('J_DIR_FRAMEWORK_ROOT', dirname(J_DIR_APP_ROOT) . J_DIR_SEP . 'framework');
 		defined('J_DIR_FRAMEWORK_CORE') ? : define('J_DIR_FRAMEWORK_CORE', J_DIR_FRAMEWORK_ROOT . J_DIR_SEP . 'core');
+		defined('J_ENV') ? : define('J_ENV','test'); 
 	}
 	
 	/**
@@ -65,8 +66,8 @@ final class JBootstrap
 	{
 		$exceptionHandler = JConfig::getInstance()->getModuleSet('application', 'exceptionHandler');
 		$errorHandler = JConfig::getInstance()->getModuleSet('application', 'errorHandler');
-		//set_exception_handler($exceptionHandler);
-		//set_error_handler($errorHandler);
+		set_exception_handler($exceptionHandler);
+		set_error_handler($errorHandler);
 	}
 	
 	

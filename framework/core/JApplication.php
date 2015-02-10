@@ -17,6 +17,7 @@ final class JApplication
 	public $__request;
 	public $__router;
 	public $__logger;
+	public $__runtime;
 	
 	private function __construct()
 	{
@@ -58,7 +59,7 @@ final class JApplication
 		JBootstrap::init();
 	}
 	
-	public function run($config = '')
+	public function run()
 	{
 		$controller = JApplication::getApp()->__controller;
 		$action = JApplication::getApp()->__action;
@@ -68,7 +69,7 @@ final class JApplication
 	
 	/**
 	 * @name:程序执行入口
-	 * @param:$params:app运行的参数,$config:app运行所属的配置
+	 * @param:$config:app运行所属的配置文件
 	 */
 	public function start($config = '')
 	{
@@ -79,12 +80,14 @@ final class JApplication
 	
 	private function beforeRun()
 	{
+		$this->__runtime = microtime(TRUE);
 		$this->__router->dispatch();
 	}
 	
 	private function afterRun()
 	{
 		//清空加载import的类库
+		$this->__runtime = microtime(TRUE) - $this->__runtime;
 	}
 
 	

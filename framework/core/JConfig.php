@@ -7,6 +7,7 @@
  * @since:20140204
  */
 //namespace core;
+require_once 'JException.php';
 final class JConfig
 {
 	static private $__instance;
@@ -14,10 +15,20 @@ final class JConfig
 	
 	private function __construct()
 	{
-		$configFile = J_DIR_APP_ROOT . J_DIR_SEP . 'config' . J_DIR_SEP . 'test.php';
+		$configName = J_ENV . '.php';
+		$configFile = J_DIR_APP_ROOT . J_DIR_SEP . 'config' . J_DIR_SEP . $configName;
+		$this->checkConfigFileExist($configFile);
 		if(is_file($configFile))
 		{
 			$this->configData = include_once($configFile);
+		}
+	}
+	
+	private function checkConfigFileExist($configFile)
+	{
+		if(!is_file($configFile))
+		{
+			Throw New Exception(JException::J_EXCEPTION_CONFIG_FAIL_MSG,JException::J_EXCEPTION_CONFIG_FAIL_CODE);
 		}
 	}
 	
@@ -30,7 +41,7 @@ final class JConfig
 		}
 		else
 		{
-			self::$__instance = new self();
+			self::$__instance = new JConfig();
 		}
 		return self::$__instance;
 	}

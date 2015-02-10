@@ -26,7 +26,7 @@ return array(
 											
 										),
 				'router'	 	=> array(	//路由配置
-											'defaultRouter' 			=> array('/\/([^\/]+)\/([^\/]+)\/([^\/]+)\/(.*)$/i' => '__m=${1}&__c=${2}&__a=${3}&__p=${4}'),
+											'defaultRouter' 			=> array('/\/([^\/]+)\/([^\/]+)\/([^\/]+)(\/(.*))?$/i' => '__m=${1}&__c=${2}&__a=${3}&__p=${4}'),
 											'customConfigFile' 				=> 'router.php',
 											'urlSuffix'					=> '.html',
 										),
