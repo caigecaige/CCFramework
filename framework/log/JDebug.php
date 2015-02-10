@@ -9,7 +9,8 @@
 //namespace core/log;
 class JDebug extends JLogger
 {
-	static private $__instace;
+	static private $__instance;
+	private $__runtimes;
 	
 	private function __construct()
 	{
@@ -17,20 +18,24 @@ class JDebug extends JLogger
 	
 	static public function getInstance()
 	{
-		if(self::$__instace instanceof self)
+		if(!self::$__instance instanceof self)
 		{
-			
+			self::$__instance = new JDebug();
 		}
-		else
-		{
-			self::$__instace = new self();
-		}	
-		return self::$__instace;
+		return self::$__instance;
+	}
+	
+	public function record($file,$line)
+	{
+		$record['file'] = $file;
+		$record['line'] = $line;
+		$record['currentTime'] = microtime(TRUE);
+		$this->__runtimes[] = $record;
 	}
 	
 	public function render()
 	{
-		
+		var_dump($this->__runtimes);
 	}
 	
 	public function logFormat()

@@ -17,7 +17,7 @@ final class JApplication
 	public $__request;
 	public $__router;
 	public $__logger;
-	public $__runtime;
+	public $__runtimes;
 	
 	private function __construct()
 	{
@@ -80,14 +80,17 @@ final class JApplication
 	
 	private function beforeRun()
 	{
-		$this->__runtime = microtime(TRUE);
+		/**
+		 * 记录运行时间
+		 */
+		//JDebug::getInstance()->record(__FILE__, __LINE__);
 		$this->__router->dispatch();
 	}
 	
 	private function afterRun()
 	{
 		//清空加载import的类库
-		$this->__runtime = microtime(TRUE) - $this->__runtime;
+		//JDebug::getInstance()->record(__FILE__, __LINE__);
 	}
 
 	

@@ -16,5 +16,3 @@ require_once('../../framework/core/JApplication.php');
  * 配置文件名，位于config,不需要后缀
  */
 JApplication::getApp()->start();
-
-echo JApplication::getApp()->__runtime;
