@@ -12,7 +12,7 @@ return array(
 											'lang' 				=> 'ch',
 											'debug' 			=> FALSE,
 											'log' 				=> FALSE,
-											'systemLib' 		=> array('core','db','log'),
+											'systemLib' 		=> array('core','db','log','templateEngine'),
 											'defaultModule'		=> 'index',
 											'theme'				=> 'default',
 											'exceptionHandler'	=> array('JException','handler'),		//异常处理Handler

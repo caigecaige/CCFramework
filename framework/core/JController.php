@@ -13,7 +13,7 @@ abstract class JController
 	
 	public function init()
 	{
-		$this->__render;
+		$this->__render = new DefaultRender();
 	}
 	
 	public function runAction($action)

@@ -9,7 +9,7 @@
 //namespace core;
 abstract class JRender
 {
-	private $__templateFile;
+	protected $__fileSuffix = '.php';		//模板文件后缀
 	
 	/**
 	 * 返回模板文件路径
