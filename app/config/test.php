@@ -8,8 +8,9 @@
  */
 return array(
 				'application' 	=> array(	//应用程序配置
-											'name' 				=> 'appName',
+											'name' 				=> 'myapp',
 											'lang' 				=> 'ch',
+											'theme'				=> 'default',
 											'debug' 			=> FALSE,
 											'log' 				=> FALSE,
 											'systemLib' 		=> array('core','db','log','templateEngine'),

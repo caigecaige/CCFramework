@@ -9,11 +9,11 @@
 //namespace core;
 abstract class JController
 {
-	private $__render;
+	protected $__render;
 	
 	public function init()
 	{
-		$this->__render = new DefaultRender();
+		$this->__render = new TwigRender();
 	}
 	
 	public function runAction($action)
@@ -22,7 +22,6 @@ abstract class JController
 		$this->beforeAction();
 		$this->$action();
 		$this->afterAction();
-		$this->render($action);
 	}
 	
 	public function beforeAction()
@@ -35,10 +34,18 @@ abstract class JController
 		
 	}
 	
-	public function render($action)
+	public function render()
 	{
-		$this->__render->render();
+		return $this->__render->render();
 	}
 	
+	public function renderNoLayout()
+	{
+		return $this->__render->renderNoLayout();
+	}
 	
+	public function setViewData($data = array())
+	{
+		return $this->__render->setData($data);
+	}
 }

@@ -35,6 +35,11 @@ final class JAutoload
 		{
 			foreach(self::$__systemLibPath as $path)
 			{
+				if(preg_match('/\./',$path))
+				{
+					$path = preg_replace('/\./',J_DIR_SEP,$path);
+				}
+				
 				$classFile = J_DIR_FRAMEWORK_ROOT . J_DIR_SEP . $path . J_DIR_SEP . $class . '.php';
 				if(is_file($classFile))
 				{

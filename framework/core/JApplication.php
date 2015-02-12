@@ -93,6 +93,9 @@ final class JApplication
 		//JDebug::getInstance()->record(__FILE__, __LINE__);
 	}
 
-	
+	public function __get($key)
+	{
+		return JConfig::getInstance()->getModuleSet('application', $key);
+	}
 	
 }
