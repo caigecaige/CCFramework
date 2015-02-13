@@ -12,7 +12,6 @@ class DefaultRender extends JRender
 	protected $__layoutDir = 'layouts';
 	protected $__layoutFile = 'main.php';
 	protected $__viewData;
-	protected $__viewVarPrefix = 'j_';
 	
 	public function templateFile()
 	{
@@ -32,12 +31,20 @@ class DefaultRender extends JRender
 		return $layoutFileDir . $this->__layoutFile;
 	}
 	
-	public function render()
+	public function render($template = '')
 	{
+		if(!empty($template))
+		{
+			$templateFile = dirname($this->templateFile()) . J_DIR_SEP . $template . $this->__fileSuffix;
+		}
+		else
+		{
+			$templateFile = $this->templateFile();
+		}
 		$layout = $this->layoutFile();
 		if(!empty($layout) && is_file($layout))
 		{
-			$viewContent = $this->renderFile($this->templateFile(), $this->__viewData, TRUE);
+			$viewContent = $this->renderFile($templateFile, $this->__viewData, TRUE);
 			$this->setData(array($this->__varName => $viewContent));
 			$this->renderFile($layout, $this->__viewData, FALSE); 
 		}
@@ -48,9 +55,17 @@ class DefaultRender extends JRender
 		
 	}
 	
-	public function renderNoLayout()
+	public function renderNoLayout($template = '')
 	{
-		$this->renderFile($this->templateFile(), $this->__viewData, FALSE);
+		if(!empty($template))
+		{
+			$templateFile = dirname($this->templateFile()) . J_DIR_SEP . $template . $this->__fileSuffix;
+		}
+		else
+		{
+			$templateFile = $this->templateFile();
+		}
+		$this->renderFile($templateFile, $this->__viewData, FALSE);
 	}
 	
 	public function setData($data = array())

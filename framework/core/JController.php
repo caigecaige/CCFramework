@@ -14,6 +14,7 @@ abstract class JController
 	public function init()
 	{
 		$this->__render = new TwigRender();
+		//$this->__render = new DefaultRender();
 	}
 	
 	public function runAction($action)
@@ -34,14 +35,14 @@ abstract class JController
 		
 	}
 	
-	public function render()
+	public function render($template = '')
 	{
-		return $this->__render->render();
+		return $this->__render->render($template);
 	}
 	
-	public function renderNoLayout()
+	public function renderNoLayout($template = '')
 	{
-		return $this->__render->renderNoLayout();
+		return $this->__render->renderNoLayout($template);
 	}
 	
 	public function setViewData($data = array())

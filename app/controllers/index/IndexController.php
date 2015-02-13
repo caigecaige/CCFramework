@@ -11,7 +11,7 @@ class IndexController extends JController
 	{
 		$data = array('username' => 'hello');
 		$this->setViewData($data);
-		$this->render();
+		$this->renderNoLayout('index2');
 	}
 	
 	public function infoAction()
